@@ -1,0 +1,6 @@
+web/node_modules
+web/.next
+web/.env.local
+
+photographer-portfolio/node_modules
+photographer-portfolio/.sanity/runtime
