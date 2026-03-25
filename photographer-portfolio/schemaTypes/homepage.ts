@@ -25,16 +25,5 @@ export const homepageType = defineType({
         hotspot: true,
       },
     }),
-    defineField({
-      name: 'featuredGalleries',
-      title: 'Featured Galleries',
-      type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [{type: 'gallery'}],
-        },
-      ],
-    }),
   ],
 })

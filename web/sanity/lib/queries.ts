@@ -2,14 +2,7 @@ export const homepageQuery = `
   *[_type == "homepage"][0]{
     heroTitle,
     heroSubtitle,
-    heroImage,
-    featuredGalleries[]->{
-      _id,
-      title,
-      slug,
-      coverImage,
-      description
-    }
+    heroImage
   }
 `
 

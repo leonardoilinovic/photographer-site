@@ -1,9 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { SanityImageSource } from "@sanity/image-url";
 import { client } from "@/sanity/lib/client";
-import { homepageQuery } from "@/sanity/lib/queries";
+import { homepageQuery, galleriesQuery } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import Reveal from "./components/Reveal";
+import FeaturedCarousel from "./components/FeaturedCarousel"; 
 
 type GalleryPreview = {
   _id: string;
@@ -11,23 +13,24 @@ type GalleryPreview = {
   slug?: {
     current?: string;
   };
-  coverImage?: unknown;
+  coverImage?: SanityImageSource;
   description?: string;
 };
 
 type HomepageData = {
   heroTitle?: string;
   heroSubtitle?: string;
-  heroImage?: unknown;
-  featuredGalleries?: GalleryPreview[];
+  heroImage?: SanityImageSource;
 };
 
 export default async function Home() {
-  const homepage: HomepageData = await client.fetch(homepageQuery);
+  const homepage = await client.fetch<HomepageData>(homepageQuery);
+  const galleries = await client.fetch<GalleryPreview[]>(galleriesQuery);
+  const hasHeroImage = Boolean(homepage?.heroImage);
 
   return (
     <main className="bg-white text-black">
-      <section className="mx-auto grid min-h-[92vh] max-w-7xl items-center gap-12 px-6 py-16 md:px-12 lg:grid-cols-[1.05fr_0.95fr]">
+      <section className="mx-auto grid min-h-[92vh] max-w-7xl items-center gap-16 px-6 py-16 md:px-12 lg:grid-cols-[0.95fr_1.05fr]">
         <Reveal delay={0.05}>
           <div>
             <p className="mb-5 text-xs uppercase tracking-[0.4em] text-neutral-500">
@@ -35,7 +38,8 @@ export default async function Home() {
             </p>
 
             <h1 className="max-w-4xl text-6xl font-light leading-[0.95] md:text-8xl">
-              {homepage?.heroTitle || "Modern photography with depth, elegance, and emotion."}
+              {homepage?.heroTitle ||
+                "Modern photography with depth, elegance, and emotion."}
             </h1>
 
             <p className="mt-8 max-w-2xl text-lg leading-8 text-neutral-600 md:text-xl">
@@ -62,78 +66,35 @@ export default async function Home() {
         </Reveal>
 
         <Reveal delay={0.15}>
-          <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-neutral-100 shadow-[0_20px_80px_rgba(0,0,0,0.08)]">
-            {homepage?.heroImage ? (
-              <Image
-                src={urlFor(homepage.heroImage).width(1400).height(1700).url()}
-                alt="Hero image"
-                fill
-                priority
-                className="object-cover"
-              />
-            ) : (
-              <div className="flex h-full items-center justify-center text-neutral-400">
-                No hero image yet
-              </div>
-            )}
-          </div>
-        </Reveal>
-      </section>
+          <div className="relative flex justify-center lg:justify-end">
+            <div className="relative w-full max-w-[620px]">
+              <div className="pointer-events-none absolute -inset-3 rounded-[2.5rem] border border-black/6" />
 
-      <section className="mx-auto max-w-7xl px-6 py-24 md:px-12">
-        <Reveal>
-          <div className="mb-14 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-            <div>
-              <p className="mb-3 text-xs uppercase tracking-[0.35em] text-neutral-500">
-                Featured Work
-              </p>
-              <h2 className="text-5xl font-light md:text-7xl">Selected Galleries</h2>
-            </div>
-
-            <Link
-              href="/portfolio"
-              className="text-sm uppercase tracking-[0.2em] text-neutral-600 hover:text-black"
-            >
-              View all work
-            </Link>
-          </div>
-        </Reveal>
-
-        <div className="grid gap-8 lg:grid-cols-3">
-          {homepage?.featuredGalleries?.map((gallery, index) => (
-            <Reveal key={gallery._id} delay={0.08 * index}>
-              <Link
-                href={`/portfolio/${gallery.slug?.current || ""}`}
-                className={`group block ${index === 0 ? "lg:col-span-2" : ""}`}
-              >
-                <div className="relative overflow-hidden rounded-[2rem] bg-neutral-100 shadow-[0_12px_40px_rgba(0,0,0,0.06)]">
-                  <div className={index === 0 ? "aspect-[16/10]" : "aspect-[4/5]"}>
-                    {gallery.coverImage ? (
-                      <Image
-                        src={urlFor(gallery.coverImage).width(1400).height(1200).url()}
-                        alt={gallery.title}
-                        fill
-                        className="object-cover transition duration-700 group-hover:scale-[1.03]"
-                      />
-                    ) : (
-                      <div className="flex h-full items-center justify-center text-neutral-400">
-                        No image
-                      </div>
-                    )}
+              <div className="relative aspect-[4/5] overflow-hidden rounded-[2.2rem] bg-neutral-100 shadow-[0_35px_100px_rgba(0,0,0,0.16)]">
+                {hasHeroImage && homepage.heroImage ? (
+                  <>
+                    <Image
+                      src={urlFor(homepage.heroImage).width(1600).height(2000).url()}
+                      alt="Hero image"
+                      fill
+                      priority
+                      className="object-cover transition duration-700 ease-out hover:scale-[1.015]"
+                    />
+                    <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/20" />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/8 via-transparent to-white/6" />
+                  </>
+                ) : (
+                  <div className="flex h-full items-center justify-center text-neutral-400">
+                    No hero image yet
                   </div>
-                </div>
-
-                <div className="mt-5">
-                  <h3 className="text-3xl font-light md:text-4xl">{gallery.title}</h3>
-                  <p className="mt-2 max-w-xl text-sm leading-6 text-neutral-600">
-                    {gallery.description}
-                  </p>
-                </div>
-              </Link>
-            </Reveal>
-          ))}
-        </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </Reveal>
       </section>
+
+      <FeaturedCarousel galleries={galleries} />
 
       <section className="border-y border-neutral-200 bg-neutral-50">
         <div className="mx-auto grid max-w-7xl gap-10 px-6 py-24 md:px-12 lg:grid-cols-[0.9fr_2fr]">
