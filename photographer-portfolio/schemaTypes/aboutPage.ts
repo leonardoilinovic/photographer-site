@@ -18,12 +18,29 @@ export const aboutPageType = defineType({
       rows: 8,
     }),
     defineField({
-      name: 'portrait',
-      title: 'Portrait',
+      name: 'portraitTop',
+      title: 'Portrait Top (main)',
       type: 'image',
       options: {
         hotspot: true,
       },
+    }),
+    defineField({
+      name: 'portraitBottom',
+      title: 'Portrait Bottom (reveal)',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+    }),
+    defineField({
+      name: 'portrait',
+      title: 'Portrait (legacy)',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+      hidden: true,
     }),
   ],
 })

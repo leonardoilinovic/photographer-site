@@ -37,6 +37,8 @@ export const aboutPageQuery = `
   *[_type == "aboutPage"][0]{
     title,
     bio,
+    portraitTop,
+    portraitBottom,
     portrait
   }
 `

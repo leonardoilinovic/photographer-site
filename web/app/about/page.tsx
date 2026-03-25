@@ -1,13 +1,14 @@
-import Image from "next/image";
 import type { SanityImageSource } from "@sanity/image-url";
 import { client } from "@/sanity/lib/client";
 import { aboutPageQuery } from "@/sanity/lib/queries";
-import { urlFor } from "@/sanity/lib/image";
 import Reveal from "../components/Reveal";
+import PortraitReveal from "../components/PortraitReveal";
 
 type AboutPageData = {
   title?: string;
   bio?: string;
+  portraitTop?: SanityImageSource;
+  portraitBottom?: SanityImageSource;
   portrait?: SanityImageSource;
 };
 
@@ -43,12 +44,13 @@ export default async function AboutPage() {
 
         <Reveal delay={0.1} className="order-1 lg:order-2">
           <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-neutral-100 shadow-[0_20px_80px_rgba(0,0,0,0.08)]">
-            {about?.portrait ? (
-              <Image
-                src={urlFor(about.portrait).width(1200).height(1500).url()}
+            {about?.portraitTop || about?.portrait ? (
+              <PortraitReveal
+                topImage={about?.portraitTop || about!.portrait!}
+                bottomImage={about?.portraitBottom}
                 alt={about?.title || "Portrait"}
-                fill
-                className="object-cover"
+                width={1200}
+                height={1500}
               />
             ) : (
               <div className="flex h-full items-center justify-center text-neutral-400">

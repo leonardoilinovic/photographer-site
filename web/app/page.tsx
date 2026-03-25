@@ -5,7 +5,8 @@ import { client } from "@/sanity/lib/client";
 import { homepageQuery, galleriesQuery } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import Reveal from "./components/Reveal";
-import FeaturedCarousel from "./components/FeaturedCarousel"; 
+import FeaturedCarousel from "./components/FeaturedCarousel";
+import HeroParallaxImage from "./components/HeroParallaxImage";
 
 type GalleryPreview = {
   _id: string;
@@ -30,7 +31,7 @@ export default async function Home() {
 
   return (
     <main className="bg-white text-black">
-      <section className="mx-auto grid min-h-[92vh] max-w-7xl items-center gap-16 px-6 py-16 md:px-12 lg:grid-cols-[0.95fr_1.05fr]">
+      <section className="mx-auto grid min-h-[92vh] max-w-7xl items-center gap-16 px-6 py-16 md:px-12 lg:grid-cols-[0.95fr_1.05fr] hero-subtle-detail">
         <Reveal delay={0.05}>
           <div>
             <p className="mb-5 text-xs uppercase tracking-[0.4em] text-neutral-500">
@@ -73,13 +74,15 @@ export default async function Home() {
               <div className="relative aspect-[4/5] overflow-hidden rounded-[2.2rem] bg-neutral-100 shadow-[0_35px_100px_rgba(0,0,0,0.16)]">
                 {hasHeroImage && homepage.heroImage ? (
                   <>
-                    <Image
-                      src={urlFor(homepage.heroImage).width(1600).height(2000).url()}
-                      alt="Hero image"
-                      fill
-                      priority
-                      className="object-cover transition duration-700 ease-out hover:scale-[1.015]"
-                    />
+                    <HeroParallaxImage maxShift={28}>
+                      <Image
+                        src={urlFor(homepage.heroImage).width(1600).height(2000).url()}
+                        alt="Hero image"
+                        fill
+                        priority
+                        className="object-cover transition duration-700 ease-out hover:scale-[1.015]"
+                      />
+                    </HeroParallaxImage>
                     <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/20" />
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/8 via-transparent to-white/6" />
                   </>
