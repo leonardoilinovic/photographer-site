@@ -1,21 +1,31 @@
 import {defineField, defineType} from 'sanity'
+import {hasLocalizedContent} from './localization'
 
 export const aboutPageType = defineType({
   name: 'aboutPage',
   title: 'About Page',
   type: 'document',
+  preview: {
+    select: {localized: 'titleLocalized'},
+    prepare({localized}) {
+      return {title: localized?.de || 'Untitled'}
+    },
+  },
   fields: [
     defineField({
-      name: 'title',
+      name: 'titleLocalized',
       title: 'Title',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
+      type: 'localizedString',
+      description: 'Add German and English content. Empty translations fall back to German only.',
+      validation: (Rule) => Rule.custom((value) =>
+        hasLocalizedContent(value) || 'Add a German value.',
+      ),
     }),
     defineField({
-      name: 'bio',
+      name: 'bioLocalized',
       title: 'Bio',
-      type: 'text',
-      rows: 8,
+      type: 'localizedText',
+      description: 'Add German and English content. Empty translations fall back to German only.',
     }),
     defineField({
       name: 'portraitTop',

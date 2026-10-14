@@ -1,7 +1,14 @@
+// Keep the response shape unchanged while choosing localized content.
+// Empty translations count as missing; only German is used as a fallback.
+const localized = (field: string) => `coalesce(
+  select(length(coalesce(${field}Localized[$locale], "")) > 0 => ${field}Localized[$locale]),
+  select(length(coalesce(${field}Localized[$fallbackLocale], "")) > 0 => ${field}Localized[$fallbackLocale])
+)`
+
 export const homepageQuery = `
   *[_type == "homepage"][0]{
-    heroTitle,
-    heroSubtitle,
+    "heroTitle": ${localized("heroTitle")},
+    "heroSubtitle": ${localized("heroSubtitle")},
     heroImage
   }
 `
@@ -9,10 +16,10 @@ export const homepageQuery = `
 export const galleriesQuery = `
   *[_type == "gallery"] | order(_createdAt desc){
     _id,
-    title,
+    "title": ${localized("title")},
     slug,
     coverImage,
-    description
+    "description": ${localized("description")}
   }
 `
 
@@ -25,18 +32,18 @@ export const gallerySlugsQuery = `
 export const galleryBySlugQuery = `
   *[_type == "gallery" && slug.current == $slug][0]{
     _id,
-    title,
+    "title": ${localized("title")},
     slug,
     coverImage,
-    description,
+    "description": ${localized("description")},
     photos
   }
 `
 
 export const aboutPageQuery = `
   *[_type == "aboutPage"][0]{
-    title,
-    bio,
+    "title": ${localized("title")},
+    "bio": ${localized("bio")},
     portraitTop,
     portraitBottom,
     portrait
@@ -48,6 +55,6 @@ export const contactPageQuery = `
     email,
     phone,
     instagram,
-    contactText
+    "contactText": ${localized("contactText")}
   }
 `

@@ -89,7 +89,7 @@ export default function PortraitReveal({
         <div className="absolute inset-0">
           <Image
             src={bottomUrl!}
-            alt={`${alt} (background)`}
+            alt=""
             fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, 600px"

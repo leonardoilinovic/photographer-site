@@ -1,0 +1,79 @@
+{
+  "portfolio": "Portfolio",
+  "about": "Über mich",
+  "contact": "Kontakt",
+  "editorial": "Moderne Editorial-Fotografie",
+  "explore": "Arbeiten entdecken",
+  "getInTouch": "Kontakt aufnehmen",
+  "heroTitle": "Moderne Fotografie mit Tiefe, Eleganz und Emotion.",
+  "heroSubtitle": "Ein visuelles Portfolio, das Fotografie als stilvolles, eindrucksvolles Markenerlebnis präsentiert.",
+  "studio": "Über das Studio",
+  "studioTitle": "Visuelle Geschichten mit einem klaren redaktionellen Blick – im Einklang mit Emotion, Atmosphäre und bewusster Bildgestaltung.",
+  "studioText": "Diese Website bietet jeder Bildserie Raum, ihre Wirkung zu entfalten. Eine elegante Gestaltung lädt zum Entdecken ein und führt zu Anfrage und Buchung.",
+  "readMore": "Mehr erfahren",
+  "workTogether": "Gemeinsam gestalten",
+  "ctaTitle": "Bereit für Bilder, die hochwertig, modern und unvergesslich sind?",
+  "featured": "Ausgewählte Arbeiten",
+  "selectedGalleries": "Ausgewählte Galerien",
+  "viewAll": "Alle Arbeiten ansehen",
+  "selectedGallery": "Ausgewählte Galerie",
+  "viewGallery": "Galerie ansehen",
+  "openGallery": "Galerie öffnen",
+  "gallery": "Galerie",
+  "photo": "Foto",
+  "portfolioTitle": "Eine kuratierte Auswahl visueller Geschichten, Porträts und redaktioneller Momentaufnahmen.",
+  "aboutTitle": "Über den Fotografen",
+  "portrait": "Porträt",
+  "contactTitle": "Lass uns etwas Unvergessliches schaffen.",
+  "contactText": "Für Buchungen, Kooperationen, Kampagnen oder andere Anfragen freue ich mich auf deine Nachricht.",
+  "contactDetails": "Kontaktdaten",
+  "email": "E-Mail",
+  "phone": "Telefon",
+  "instagram": "Instagram",
+  "noImage": "Kein Bild",
+  "noPortrait": "Noch kein Porträt vorhanden",
+  "noBio": "Noch keine Biografie vorhanden.",
+  "noEmail": "Noch keine E-Mail-Adresse vorhanden.",
+  "noPhone": "Noch keine Telefonnummer vorhanden.",
+  "noInstagram": "Noch kein Instagram-Link vorhanden.",
+  "previousGallery": "Vorherige Galerie",
+  "nextGallery": "Nächste Galerie",
+  "goToPosition": "Zur Position",
+  "mainNavigation": "Hauptnavigation",
+  "siteLanguage": "Sprache",
+  "openMenu": "Menü öffnen",
+  "closeMenu": "Menü schließen",
+  "home": "Startseite",
+  "rights": "Alle Rechte vorbehalten.",
+  "siteTitle": "Fotografie-Portfolio",
+  "siteDescription": "Modernes Fotografie-Portfolio",
+  "notFound": "Seite nicht gefunden",
+  "backHome": "Zur Startseite",
+  "openImage": "Bild öffnen",
+  "closeLightbox": "Bildansicht schließen",
+  "previousImage": "Vorheriges Bild",
+  "nextImage": "Nächstes Bild",
+  "imageViewer": "Bildansicht",
+  "seo": {
+    "home": {
+      "title": "Fotografie & visuelle Geschichten",
+      "description": "Entdecke das Portfolio von Kristijan Turbić: ausdrucksstarke Fotografie, Porträts und visuelle Geschichten. Ausgewählte Galerien ansehen und Kontakt aufnehmen."
+    },
+    "portfolio": {
+      "title": "Portfolio",
+      "description": "Ausgewählte Fotoserien und Galerien von Kristijan Turbić. Entdecke Porträts, besondere Momente und Geschichten in Bildern."
+    },
+    "about": {
+      "title": "Über mich",
+      "description": "Lerne den Fotografen Kristijan Turbić und seinen Blick auf Menschen, Atmosphäre und visuelle Geschichten kennen."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "description": "Kontaktiere Kristijan Turbić für Fotoanfragen, Buchungen und Kooperationen. Hier findest du alle Kontaktdaten."
+    },
+    "gallery": {
+      "title": "Fotogalerie",
+      "description": "Entdecke diese Fotoserie von Kristijan Turbić Photography. Sieh dir die vollständige Galerie an und lass dich von den Bildern inspirieren."
+    }
+  }
+}

@@ -1,6 +1,9 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { getDictionary } from "@/i18n/dictionary";
+import { localizedPath, type Locale } from "@/i18n/config";
+
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { SanityImageSource } from "@sanity/image-url";
@@ -18,16 +21,18 @@ type CarouselGallery = {
 };
 
 type FeaturedCarouselProps = {
+  locale: Locale;
   galleries: CarouselGallery[];
 };
 
-function GalleryCard({ gallery }: { gallery: CarouselGallery }) {
+function GalleryCard({ gallery, locale }: { gallery: CarouselGallery; locale: Locale }) {
+  const t = getDictionary(locale);
   const href = gallery.slug?.current
     ? `/portfolio/${gallery.slug.current}`
     : "/portfolio";
 
   return (
-    <Link href={href} className="group block">
+    <Link href={localizedPath(href, locale)} className="group block">
       <article className="relative overflow-hidden rounded-[2rem] bg-neutral-100 shadow-[0_14px_40px_rgba(0,0,0,0.08)]">
         <div className="relative aspect-[4/5] overflow-hidden">
           {gallery.coverImage ? (
@@ -39,7 +44,7 @@ function GalleryCard({ gallery }: { gallery: CarouselGallery }) {
             />
           ) : (
             <div className="flex h-full items-center justify-center text-neutral-400">
-              No image
+              {t.noImage}
             </div>
           )}
 
@@ -47,7 +52,7 @@ function GalleryCard({ gallery }: { gallery: CarouselGallery }) {
 
           <div className="absolute inset-x-0 bottom-0 p-6 sm:p-7">
             <p className="text-[11px] uppercase tracking-[0.28em] text-white/65">
-              Selected Gallery
+              {t.selectedGallery}
             </p>
 
             <h3 className="mt-2 text-3xl font-light tracking-[-0.02em] text-white sm:text-[2.15rem]">
@@ -55,7 +60,7 @@ function GalleryCard({ gallery }: { gallery: CarouselGallery }) {
             </h3>
 
             <p className="mt-4 text-xs uppercase tracking-[0.22em] text-white/80">
-              View Gallery
+              {t.viewGallery}
             </p>
           </div>
         </div>
@@ -66,56 +71,74 @@ function GalleryCard({ gallery }: { gallery: CarouselGallery }) {
 
 export default function FeaturedCarousel({
   galleries,
+  locale,
 }: FeaturedCarouselProps) {
+  const t = getDictionary(locale);
   const [current, setCurrent] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
 
+  const [maxScroll, setMaxScroll] = useState(0);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    const update = () => {
+      const first = itemRefs.current[0];
+      if (!first) return;
+      const step = first.getBoundingClientRect().width + 24;
+      const end = Math.max(0, container.scrollWidth - container.clientWidth);
+      const last = Math.max(0, Math.ceil((end - 1) / step));
+      setMaxScroll(last);
+      setCurrent(container.scrollLeft >= end - 2 ? last : Math.round(container.scrollLeft / step));
+    };
+    const observer = new ResizeObserver(update);
+    observer.observe(container);
+    container.addEventListener("scroll", update, { passive: true });
+    update();
+    return () => {
+      observer.disconnect();
+      container.removeEventListener("scroll", update);
+    };
+  }, [galleries.length]);
+
   if (!galleries?.length) return null;
-
   const hasMany = galleries.length > 2;
-  const itemsPerView = 4;
-  const maxScroll = Math.max(0, galleries.length - itemsPerView);
 
-  const scroll = (direction: 'next' | 'prev') => {
-    let newIndex = current;
-    
-    if (direction === 'next') {
-      newIndex = current < maxScroll ? current + 1 : 0;
-    } else {
-      newIndex = current > 0 ? current - 1 : maxScroll;
-    }
-    
-    setCurrent(newIndex);
-    
-    // Scroll to the new item
-    setTimeout(() => {
-      itemRefs.current[newIndex]?.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "start",
-      });
-    }, 0);
+  const goTo = (index: number) => {
+    const container = containerRef.current;
+    const item = itemRefs.current[index];
+    if (!container || !item) return;
+    container.scrollTo({
+      left: item.offsetLeft - (itemRefs.current[0]?.offsetLeft ?? 0),
+      behavior: "smooth",
+    });
+  };
+
+  const scroll = (direction: "next" | "prev") => {
+    goTo(direction === "next"
+      ? (current < maxScroll ? current + 1 : 0)
+      : (current > 0 ? current - 1 : maxScroll));
   };
 
   return (
-    <section className="mx-auto max-w-7xl px-6 py-24 md:px-12">
+    <section className="mx-auto max-w-7xl px-6 py-16 md:px-12 md:py-24">
       <Reveal>
-        <div className="mb-14 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        <div className="mb-8 flex flex-col md:mb-14 gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p className="mb-3 text-xs uppercase tracking-[0.35em] text-neutral-500">
-              Featured Work
+              {t.featured}
             </p>
-            <h2 className="text-5xl font-light md:text-7xl">
-              Selected Galleries
+            <h2 className="text-4xl font-light sm:text-5xl md:text-7xl">
+              {t.selectedGalleries}
             </h2>
           </div>
 
           <Link
-            href="/portfolio"
+            href={localizedPath("/portfolio", locale)}
             className="text-sm uppercase tracking-[0.2em] text-neutral-600 hover:text-black"
           >
-            View all work
+            {t.viewAll}
           </Link>
         </div>
       </Reveal>
@@ -125,8 +148,8 @@ export default function FeaturedCarousel({
           <button
             type="button"
             onClick={() => scroll('prev')}
-            aria-label="Previous gallery"
-            className="absolute -left-16 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-black/10 bg-white/90 text-black shadow-[0_8px_24px_rgba(0,0,0,0.08)] backdrop-blur hover:bg-white hover:border-black/20 transition md:flex cursor-pointer"
+            aria-label={t.previousGallery}
+            className="absolute left-2 min-[1408px]:-left-16 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-black/10 bg-white/90 text-black shadow-[0_8px_24px_rgba(0,0,0,0.08)] backdrop-blur hover:bg-white hover:border-black/20 transition md:flex cursor-pointer"
           >
             ←
           </button>
@@ -134,13 +157,13 @@ export default function FeaturedCarousel({
           <button
             type="button"
             onClick={() => scroll('next')}
-            aria-label="Next gallery"
-            className="absolute -right-16 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-black/10 bg-white/90 text-black shadow-[0_8px_24px_rgba(0,0,0,0.08)] backdrop-blur hover:bg-white hover:border-black/20 transition md:flex cursor-pointer"
+            aria-label={t.nextGallery}
+            className="absolute right-2 min-[1408px]:-right-16 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-black/10 bg-white/90 text-black shadow-[0_8px_24px_rgba(0,0,0,0.08)] backdrop-blur hover:bg-white hover:border-black/20 transition md:flex cursor-pointer"
           >
             →
           </button>
 
-          <div className="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" ref={containerRef}>
+          <div className="relative flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" ref={containerRef}>
             {galleries.map((gallery, index) => (
               <div
                 key={gallery._id}
@@ -150,32 +173,24 @@ export default function FeaturedCarousel({
                 className="shrink-0 basis-[88%] snap-start sm:basis-[72%] lg:basis-[calc(25%-18px)]"
               >
                 <Reveal delay={0.06 * (index % 4)}>
-                  <GalleryCard gallery={gallery} />
+                  <GalleryCard gallery={gallery} locale={locale} />
                 </Reveal>
               </div>
             ))}
           </div>
 
-          <div className="mt-6 flex justify-center gap-2">
+          <div className="mt-4 flex flex-wrap justify-center gap-1 md:mt-6 md:gap-2">
             {Array.from({ length: maxScroll + 1 }).map((_, index) => (
               <button
                 key={index}
                 type="button"
-                onClick={() => {
-                  setCurrent(index);
-                  setTimeout(() => {
-                    itemRefs.current[index]?.scrollIntoView({
-                      behavior: "smooth",
-                      block: "nearest",
-                      inline: "start",
-                    });
-                  }, 0);
-                }}
-                aria-label={`Go to position ${index + 1}`}
-                className={`h-1.5 rounded-full transition-all ${
+                onClick={() => goTo(index)}
+                aria-current={current === index ? "true" : undefined}
+                aria-label={`${t.goToPosition} ${index + 1}`}
+                className={`flex h-11 min-w-6 md:h-1.5 md:min-w-0 items-center justify-center rounded-full after:h-1.5 after:rounded-full after:transition-all ${
                   current === index
-                    ? "w-8 bg-black"
-                    : "w-1.5 bg-neutral-300 hover:bg-neutral-400"
+                    ? "after:w-8 after:bg-black"
+                    : "after:w-1.5 after:bg-neutral-300 hover:after:bg-neutral-400"
                 }`}
               />
             ))}
@@ -185,7 +200,7 @@ export default function FeaturedCarousel({
         <div className="grid gap-6 lg:grid-cols-2">
           {galleries.map((gallery, index) => (
             <Reveal key={gallery._id} delay={0.08 * index}>
-              <GalleryCard gallery={gallery} />
+              <GalleryCard gallery={gallery} locale={locale} />
             </Reveal>
           ))}
         </div>

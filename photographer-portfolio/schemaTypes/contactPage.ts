@@ -19,13 +19,13 @@ export const contactPageType = defineType({
       name: 'instagram',
       title: 'Instagram',
       type: 'string',
-      description: 'Example: https://instagram.com/username',
+      description: 'Example: https://instagram.com/',
     }),
     defineField({
-      name: 'contactText',
+      name: 'contactTextLocalized',
       title: 'Contact Text',
-      type: 'text',
-      rows: 4,
+      type: 'localizedText',
+      description: 'Add German and English content. Empty translations fall back to German only.',
     }),
   ],
 })

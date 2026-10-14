@@ -1,0 +1,79 @@
+{
+  "portfolio": "Portfolio",
+  "about": "About",
+  "contact": "Contact",
+  "editorial": "Modern Editorial Photography",
+  "explore": "Explore Work",
+  "getInTouch": "Get in Touch",
+  "heroTitle": "Modern photography with depth, elegance, and emotion.",
+  "heroSubtitle": "A visual portfolio designed to present photography as a refined, immersive brand experience.",
+  "studio": "About the Studio",
+  "studioTitle": "Visual storytelling with a clean editorial approach, balancing emotion, atmosphere, and intentional composition.",
+  "studioText": "This website is designed to feel immersive and elegant, giving each body of work space to breathe while still guiding visitors toward inquiry and booking.",
+  "readMore": "Read more",
+  "workTogether": "Let's work together",
+  "ctaTitle": "Ready to create imagery that feels premium, modern, and memorable?",
+  "featured": "Featured Work",
+  "selectedGalleries": "Selected Galleries",
+  "viewAll": "View all work",
+  "selectedGallery": "Selected Gallery",
+  "viewGallery": "View Gallery",
+  "openGallery": "Open gallery",
+  "gallery": "Gallery",
+  "photo": "photo",
+  "portfolioTitle": "A curated collection of visual stories, portraits, and editorial moments.",
+  "aboutTitle": "About the Photographer",
+  "portrait": "Portrait",
+  "contactTitle": "Let's create something memorable.",
+  "contactText": "For bookings, collaborations, campaigns, or other inquiries, feel free to get in touch.",
+  "contactDetails": "Contact Details",
+  "email": "Email",
+  "phone": "Phone",
+  "instagram": "Instagram",
+  "noImage": "No image",
+  "noPortrait": "No portrait yet",
+  "noBio": "No bio added yet.",
+  "noEmail": "No email added yet.",
+  "noPhone": "No phone added yet.",
+  "noInstagram": "No Instagram link added yet.",
+  "previousGallery": "Previous gallery",
+  "nextGallery": "Next gallery",
+  "goToPosition": "Go to position",
+  "mainNavigation": "Main navigation",
+  "siteLanguage": "Site language",
+  "openMenu": "Open menu",
+  "closeMenu": "Close menu",
+  "home": "home",
+  "rights": "All rights reserved.",
+  "siteTitle": "Photographer Portfolio",
+  "siteDescription": "Modern photographer portfolio website",
+  "notFound": "Page not found",
+  "backHome": "Back to home",
+  "openImage": "Open image",
+  "closeLightbox": "Close image viewer",
+  "previousImage": "Previous image",
+  "nextImage": "Next image",
+  "imageViewer": "Image viewer",
+  "seo": {
+    "home": {
+      "title": "Photography & Visual Stories",
+      "description": "Explore the portfolio of Kristijan Turbić: expressive photography, portraits and visual stories. Browse selected galleries and get in touch."
+    },
+    "portfolio": {
+      "title": "Portfolio",
+      "description": "Selected photo series and galleries by Kristijan Turbić. Discover portraits, special moments and stories told through photography."
+    },
+    "about": {
+      "title": "About",
+      "description": "Meet photographer Kristijan Turbić and discover his approach to people, atmosphere and visual storytelling."
+    },
+    "contact": {
+      "title": "Contact",
+      "description": "Contact Kristijan Turbić for photography inquiries, bookings and collaborations. Find email, phone and social contact details here."
+    },
+    "gallery": {
+      "title": "Photo Gallery",
+      "description": "Explore this photo series by Kristijan Turbić Photography. View the complete gallery and discover the stories behind the images."
+    }
+  }
+}

@@ -1,22 +1,33 @@
 import {defineField, defineType} from 'sanity'
+import {hasLocalizedContent, galleryTitle} from './localization'
 
 export const galleryType = defineType({
   name: 'gallery',
   title: 'Gallery',
   type: 'document',
+  preview: {
+    select: {localized: 'titleLocalized'},
+    prepare({localized}) {
+      return {title: galleryTitle({titleLocalized: localized}) || 'Untitled'}
+    },
+  },
   fields: [
     defineField({
-      name: 'title',
+      name: 'titleLocalized',
       title: 'Title',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
+      type: 'localizedString',
+      description: 'Add German and English content. Empty translations fall back to German only.',
+      validation: (Rule) => Rule.custom((value) =>
+        hasLocalizedContent(value) || 'Add a German value.',
+      ),
     }),
     defineField({
       name: 'slug',
       title: 'Slug',
+      description: 'Shared by both languages. Existing slugs stay unchanged unless you explicitly edit or regenerate them.',
       type: 'slug',
       options: {
-        source: 'title',
+        source: (document) => galleryTitle(document),
         maxLength: 96,
       },
       validation: (Rule) => Rule.required(),
@@ -31,10 +42,10 @@ export const galleryType = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'description',
+      name: 'descriptionLocalized',
       title: 'Description',
-      type: 'text',
-      rows: 4,
+      type: 'localizedText',
+      description: 'Add German and English content. Empty translations fall back to German only.',
     }),
     defineField({
       name: 'photos',
