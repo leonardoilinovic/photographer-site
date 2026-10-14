@@ -15,6 +15,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     url: canonicalUrl(path, locale),
     alternates: { languages: languageAlternates(path) },
   })));
+  const legalPaths = [
+    { de: "/impressum", en: "/imprint" },
+    { de: "/datenschutz", en: "/privacy" },
+  ] as const;
+  for (const paths of legalPaths) {
+    const languages = Object.fromEntries(
+      locales.map(locale => [locale, canonicalUrl(paths[locale], locale)]),
+    );
+    entries.push(...locales.map(locale => ({
+      url: canonicalUrl(paths[locale], locale),
+      alternates: { languages: { ...languages, "x-default": canonicalUrl(paths.de, "de") } },
+    })));
+  }
   for (const gallery of galleries) {
     const path = `/portfolio/${encodeURIComponent(gallery.slug)}`;
     for (const locale of locales) entries.push({

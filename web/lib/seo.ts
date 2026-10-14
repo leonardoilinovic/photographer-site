@@ -48,3 +48,48 @@ export function pageMetadata(locale: Locale, page: SeoPage, path: string, overri
     },
   };
 }
+
+export type LegalPage = "imprint" | "privacy";
+
+export function legalPageMetadata(locale: Locale, page: LegalPage): Metadata {
+  const paths: Record<LegalPage, Record<Locale, string>> = {
+    imprint: { de: "/impressum", en: "/imprint" },
+    privacy: { de: "/datenschutz", en: "/privacy" },
+  };
+  const titles: Record<LegalPage, Record<Locale, string>> = {
+    imprint: { de: "Impressum", en: "Imprint" },
+    privacy: { de: "Datenschutzerklärung", en: "Privacy Policy" },
+  };
+  const descriptions: Record<LegalPage, Record<Locale, string>> = {
+    imprint: {
+      de: "Anbieterkennzeichnung für T.K. Photo Art.",
+      en: "Legal notice for T.K. Photo Art.",
+    },
+    privacy: {
+      de: "Informationen zur Verarbeitung personenbezogener Daten auf dieser Website.",
+      en: "Information about the processing of personal data on this website.",
+    },
+  };
+  const path = paths[page][locale];
+  const title = `${titles[page][locale]} | T.K. Photo Art`;
+  return {
+    title,
+    description: descriptions[page][locale],
+    alternates: {
+      canonical: canonicalUrl(path, locale),
+      languages: {
+        de: canonicalUrl(paths[page].de, "de"),
+        en: canonicalUrl(paths[page].en, "en"),
+        "x-default": canonicalUrl(paths[page].de, "de"),
+      },
+    },
+    openGraph: {
+      type: "website",
+      siteName: SITE_NAME,
+      title,
+      description: descriptions[page][locale],
+      url: canonicalUrl(path, locale),
+      locale: locale === "de" ? "de_DE" : "en_GB",
+    },
+  };
+}
